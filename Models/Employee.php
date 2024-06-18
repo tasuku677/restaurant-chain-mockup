@@ -55,7 +55,11 @@ class Employee extends User {
     public function toMarkdown() {
         $userMarkdown = parent::toMarkdown();
         return $userMarkdown . "\n" . sprintf(
-            "### Job Title: %s\n- Salary: %.2f\n- Start Date: %s\n- Awards: %s\n",
+            "### 
+            - Job Title: %s\n
+            - Salary: %.2f\n
+            - Start Date: %s\n
+            - Awards: %s\n",
             $this->jobTitle,
             $this->salary,
             $this->startDate->format('Y-m-d'),
