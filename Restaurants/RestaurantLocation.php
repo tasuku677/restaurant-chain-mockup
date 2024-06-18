@@ -3,7 +3,6 @@
 namespace Restaurants;
 use Interfaces\FileConvertible;
 use Models\Employee;
-use Models\User;
 
 class RestaurantLocation implements FileConvertible{
     private string $name;
@@ -31,10 +30,13 @@ class RestaurantLocation implements FileConvertible{
         
     public function toString() : string{
         return sprintf("Restaurant name: %s\n Address: %s\n City: %s\n State: %s\n Zip Code: %s\n Employees: %s\n is Open: %s\n has Drive: %s",
-        $this->name, $this->address, $this->city, $this->state, $this->zipCode, impload(', ', $this->employees), var_export($this->isOpen), var_export($this->hasDriveThru));
+        $this->name, $this->address, $this->city, $this->state, $this->zipCode, implode(', ', $this->employees), var_export($this->isOpen), var_export($this->hasDriveThru));
     }
 
     public function toHTML() :string{
+        $employeesName = array_map(function(Employee $employee){
+            return $employee->lastName . $employee->firstName;
+        }, $this->employees);
         return sprintf("
             <div class='restaurant-location'>
                 <div class='location'>SAMPLE</div>
@@ -49,20 +51,23 @@ class RestaurantLocation implements FileConvertible{
             $this->city,
             $this->state,
             $this->zipCode,
-            impload(', ', $this->employees),
+            $employeesName,
             var_export($this->isOpen), 
             var_export($this->hasDriveThru)
         );
     }
 
     public function toMarkdown() :string{
-        $employees = impload(', ', $this->employees);
+        $employeesName = array_map(function(Employee $employee){
+            return $employee->lastName . $employee->firstName;
+        }, $this->employees);
+        $employeesName = implode(', ', $employeesName);
         $isOpen = var_export($this->isOpen);
         $hasDriveThru = var_export($this->hasDriveThru);
 
         return "## Restaurant Name: {$this->name}
                  - Location: {$this->address} {$this->city} {$this->state} {$this->zipCode}
-                 - Employees: {$employees}
+                 - Employees: {$employeesName}
                  - Be Open?: {$isOpen}
                  - Has DriveThru: {$hasDriveThru}";
     }
@@ -74,7 +79,7 @@ class RestaurantLocation implements FileConvertible{
             'city' => $this->city,
             'state' => $this->state,
             'zipCode' => $this->zipCode,
-            'employees' => impload(', ', $this->employees),
+            'employees' => implode(', ', $this->employees),
             'isOpen' => var_export($this->isOpen),
             'hasDrive' => var_export($this->hasDriveThru),
         ];
