@@ -37,7 +37,7 @@ class Employee extends User {
         );
     }
 
-    public function toHTML() {
+    public function toHTML(): string{
         $userHTML = parent::toHTML();
         return $userHTML . sprintf("
             <p>Job Title: %s</p>
@@ -52,7 +52,7 @@ class Employee extends User {
         );
     }
 
-    public function toMarkdown() {
+    public function toMarkdown(): string {
         $userMarkdown = parent::toMarkdown();
         return $userMarkdown . "\n" . sprintf(
             "### 
@@ -67,7 +67,7 @@ class Employee extends User {
         );
     }
 
-    public function toArray() {
+    public function toArray(): array {
         $userArray = parent::toArray();
         return array_merge($userArray, [
             'jobTitle' => $this->jobTitle,
