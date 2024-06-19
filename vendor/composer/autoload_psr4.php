@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
-    'FakerRestaurant\\' => array($vendorDir . '/jzonta/faker-restaurant/src'),
 );

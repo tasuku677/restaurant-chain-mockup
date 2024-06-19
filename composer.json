@@ -1,6 +1,5 @@
 {
     "require": {
-        "fakerphp/faker": "^1.23",
-        "jzonta/faker-restaurant": "^2.0"
+        "fakerphp/faker": "^1.23"
     }
 }
