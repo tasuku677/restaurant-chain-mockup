@@ -18,6 +18,7 @@ class ComposerStaticInit662aedcc6781129fa81bbdd533343456
         'F' => 
         array (
             'Faker\\' => 6,
+            'FakerRestaurant\\' => 16,
         ),
     );
 
@@ -29,6 +30,10 @@ class ComposerStaticInit662aedcc6781129fa81bbdd533343456
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
+        ),
+        'FakerRestaurant\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jzonta/faker-restaurant/src',
         ),
     );
 
