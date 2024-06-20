@@ -6,6 +6,8 @@ use Faker\Factory;
 use Models\User;
 use Restaurants\RestaurantChain;
 use CustomProviders\RestaurantNameProvider;
+use CustomProviders\AwardProvider;
+use Models\Employee;
 
 class RandomGenerator {
     public static function user(): User {
@@ -49,7 +51,7 @@ class RandomGenerator {
             $faker->phoneNumber(),
             'Food industry',
             $faker->name(),
-            array_rand(["Yes", "No"]),
+            $faker->randomElement(["Yes", "No"]),
             $faker->country(),
             $faker->name(),
             $faker->randomNumber(),
@@ -70,4 +72,29 @@ class RandomGenerator {
         return $restaurantChains;
     }
 
+    public static function employee(): Employee{
+        $faker = Faker::create();
+        $faker->addProvider(new AwardProvider());
+        $awards = [];
+        $numberOfAwards = $faker->numberBetween(0, 5);
+        for($i = 0; $i < $numberOfAwards; $i++){
+            $awards[] = $faker->award(); 
+        }
+        return new Employee(
+            $faker->randomNumber(),
+            $faker->firstName(),
+            $faker->lastName(),
+            $faker->email(),
+            $faker->password(),
+            $faker->phone(),
+            $faker->address(),
+            $faker->dateTimeThisCentury(),
+            $faker->dateTimeBetween('-10 years', '+20 years'),
+            $faker->randomElement(['admin', 'user', 'editor']),
+            $faker->jobTitle(),
+            $faker->randomFloat(),
+            $faker->dateTimeThisCentury(),
+            $awards
+        );
+    }
 }
