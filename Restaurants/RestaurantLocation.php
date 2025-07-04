@@ -16,21 +16,20 @@ class RestaurantLocation implements FileConvertible{
     
     public function __construct(
         string $name, string $address, string $city,
-        string $state, string $zipCpde, array $employees, bool $isOpen, bool $hasDriveThru)
+        string $state, string $zipCode, array $employees, bool $isOpen)
         {
             $this->name =  $name;
             $this->address = $address;
             $this->city = $city;
             $this->state = $state;
-            $this->zipCpde = $zipCpde;
+            $this->zipCode = $zipCode;
             $this->employees = $employees;
             $this->isOpen = $isOpen;
-            $this->hasDriveThru = $hasDriveThru;
         }
         
     public function toString() : string{
         $employeesName = array_map(function(Employee $employee){
-            return $employee->lastName . $employee->firstName;
+            return $employee->getFullName();
         }, $this->employees);
         $employeesName = implode(', ', $employeesName);
         return sprintf("Restaurant name: %s\n 
@@ -39,21 +38,19 @@ class RestaurantLocation implements FileConvertible{
         State: %s\n 
         Zip Code: %s\n 
         Employees: %s\n 
-        is Open: %s\n 
-        has Drive: %s",
+        is Open: %s\n",
         $this->name, 
         $this->address, 
         $this->city, 
         $this->state, 
         $this->zipCode, 
         $employeesName, 
-        $this->isOpen ? 'Yes' : 'No',  
-        $this->hasDriveThru ? 'Yes' : 'No');
+        $this->isOpen ? 'Yes' : 'No');
     }
 
     public function toHTML() :string{
         $employeesName = array_map(function(Employee $employee){
-            return $employee->lastName . $employee->firstName;
+            return $employee->getFullName();
         }, $this->employees);
         return sprintf("
             <div class='restaurant-location'>
@@ -70,24 +67,21 @@ class RestaurantLocation implements FileConvertible{
             $this->state,
             $this->zipCode,
             $employeesName,
-            $this->isOpen ? 'Yes' : 'No', 
-            $this->hasDriveThru ? 'Yes' : 'No'
+            $this->isOpen ? 'Yes' : 'No'
         );
     }
 
     public function toMarkdown() :string{
         $employeesName = array_map(function(Employee $employee){
-            return $employee->lastName . $employee->firstName;
+            return $employee->getFullName();
         }, $this->employees);
         $employeesName = implode(', ', $employeesName);
         $isOpen = $this->isOpen ? 'Yes' : 'No';
-        $hasDriveThru = $this->hasDriveThru ? 'Yes' : 'No';
 
         return "## Restaurant Name: {$this->name}
                  - Location: {$this->address} {$this->city} {$this->state} {$this->zipCode}
                  - Employees: {$employeesName}
-                 - Be Open?: {$isOpen}
-                 - Has DriveThru: {$hasDriveThru}";
+                 - Be Open?: {$isOpen}";
     }
 
     public function toArray(): array {
@@ -99,7 +93,6 @@ class RestaurantLocation implements FileConvertible{
             'zipCode' => $this->zipCode,
             'employees' => implode(', ', $this->employees),
             'isOpen' => $this->isOpen ? 'Yes' : 'No',
-            'hasDrive' => $this->hasDriveThru ? 'Yes' : 'No',
         ];
     }
 }

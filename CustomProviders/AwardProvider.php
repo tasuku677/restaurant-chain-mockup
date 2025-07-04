@@ -1,10 +1,11 @@
 <?php
 
 namespace CustomProviders;
+use Faker\Provider\Base;
 
-class AwardProvider
+class AwardProvider extends Base
 {
-    protected $awards = [
+    protected static $awards = [
         'Best Employee of the Year',
         'Excellence in Customer Service',
         'Top Salesperson',
@@ -19,6 +20,6 @@ class AwardProvider
 
     public function award()
     {
-        return $this->awards[array_rand($this->awards)];
+        return self::$awards[array_rand(self::$awards)];
     }
 }

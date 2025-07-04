@@ -33,6 +33,10 @@
             $this->founder = $founder;
             $this->totalEmployees = $totalEmployees;
         }
+
+        public function getName(): string{
+            return $this->name;
+        }
         public function toString(): string {
             return sprintf(
                 "Name: %s\nFounding Year: %d\nDescription: %s\nWebsite: %s\nPhone: %s\nIndustry: %s\nCEO: %s\nPublicly Traded: %s\nCountry: %s\nFounder: %s\nTotal Employees: %d\n",

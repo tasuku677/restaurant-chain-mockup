@@ -3,8 +3,8 @@
 namespace Models;
 
 use DateTime;
-
-class Employee extends User {
+use Interfaces\FileConvertible;
+class Employee extends User implements FileConvertible {
     private string $jobTitle;
     private float $salary;
     private DateTime $startDate;

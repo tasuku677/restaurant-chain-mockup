@@ -34,6 +34,10 @@ class User implements FileConvertible{
         $this->role = $role;
     }
 
+    public function getFullName(): string {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
     public function login(string $password): bool {
         // Validate password with the hashed password
         return password_verify($password, $this->hashedPassword);

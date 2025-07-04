@@ -23,9 +23,7 @@ $max = $_GET['max'] ?? 20;
 $min = (int)$min;
 $max = (int)$max;
 
-// ユーザーの生成
-$users = RandomGenerator::users($min, $max);
-
+$restaurantChains = RandomGenerator::restaurantChains($min, $max);
 ?>
 
 <!DOCTYPE html>
@@ -38,10 +36,11 @@ $users = RandomGenerator::users($min, $max);
     </style>
 </head>
 <body>
-    <h1><?php echo sprintf("Restaurant Chain %s %s %s", )?></h1>
-    <?php foreach ($users as $user):
-        echo $user->toHTML();
-    endforeach; ?> 
+    
+    <?php foreach ($restaurantChains as $restaurantChain):?>
+        <h1><?php echo sprintf("Restaurant Chain %s", $restaurantChain->getName());?></h1>
+        <?php echo $restaurantChain->toHTML();?>
+    <?php endforeach; ?> 
 
 </body>
 </html>
