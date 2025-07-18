@@ -8,7 +8,7 @@
         protected static $nouns = ['Bistro', 'Cafe', 'Grill', 'Diner', 'Bar', 'Restaurant', 'Eatery', 'Pub'];
         protected static $cuisines = ['Italian', 'Mexican', 'Indian', 'Japanese', 'French', 'American', 'Chinese'];
 
-        public function restaurantName(){
+        public function restaurantName():string{
             $adjective = self::$adjectives[array_rand(self::$adjectives)];
             $noun = self::$nouns[array_rand(self::$nouns)];
             $cuisine = self::$cuisines[array_rand(self::$cuisines)];

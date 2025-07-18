@@ -38,7 +38,6 @@ $restaurantChains = RandomGenerator::restaurantChains($min, $max);
 <body>
     
     <?php foreach ($restaurantChains as $restaurantChain):?>
-        <h1><?php echo sprintf("Restaurant Chain %s", $restaurantChain->getName());?></h1>
         <?php echo $restaurantChain->toHTML();?>
     <?php endforeach; ?> 
 

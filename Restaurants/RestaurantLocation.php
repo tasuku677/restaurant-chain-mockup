@@ -26,6 +26,10 @@ class RestaurantLocation implements FileConvertible{
             $this->employees = $employees;
             $this->isOpen = $isOpen;
         }
+    
+    public function getEmployees(): array {
+        return $this->employees;
+    }
         
     public function toString() : string{
         $employeesName = array_map(function(Employee $employee){

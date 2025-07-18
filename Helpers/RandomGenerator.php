@@ -6,41 +6,12 @@ use Faker\Factory;
 use CustomProviders\RestaurantNameProvider;
 use CustomProviders\AwardProvider;
 
-use Models\User;
 use Models\Employee;
 
 use Restaurants\RestaurantChain;
 use Restaurants\RestaurantLocation;
 
-use Restaurants\Restaurant;
-
 class RandomGenerator {
-    // public static function user(): User {
-    //     $faker = Factory::create();
-
-    //     return new User(
-    //         $faker->randomNumber(),
-    //         $faker->firstName(),
-    //         $faker->lastName(),
-    //         $faker->email(),
-    //         $faker->password(),
-    //         $faker->phoneNumber(),
-    //         $faker->address(),
-    //         $faker->dateTimeThisCentury(),
-    //         $faker->dateTimeBetween('-10 years', '+20 years'),
-    //         $faker->randomElement(['admin', 'user', 'editor'])
-    //     );
-    // }
-
-    // public static function users(int $min, int $max): array {
-    //     $faker = Factory::create();
-    //     $users = [];
-    //     $numOfUsers = $faker->numberBetween($min, $max);
-    //     for ($i = 0; $i < $numOfUsers; $i++) {
-    //         $users[] = self::user();
-    //     }
-    //     return $users;
-    // }
 
     public static function employee(): Employee{
         $faker = Factory::create();
@@ -69,7 +40,7 @@ class RandomGenerator {
     }
     public static  function employees(int $min, int $max): array{
         $faker = Factory::create();
-        $employeees = [];
+        $employees = [];
         $numOfEmployees = $faker->numberBetween($min, $max);
 
         for ($i = 0; $i < $numOfEmployees; $i++){
@@ -102,12 +73,20 @@ class RandomGenerator {
     }
 
      public static function restaurantChain(): RestaurantChain{
-        $faker = Factory::create();
+        $faker = Factory::create('en_US');
         $faker->addProvider(new RestaurantNameProvider($faker));
 
+        $restaurant_name = $faker->restaurantName();
+        $foundingYear = $faker->dateTimeBetween('-30 years', 'now')->format('Y');
+        $restaurantLocations = self::restaurantLocations(1, 5);
+        $totalEmployees = 0;
+        foreach ($restaurantLocations as $restaurant) {
+            $totalEmployees += count($restaurant->getEmployees());
+        }
+
         return new RestaurantChain(
-            $faker->restaurantName(),
-            $faker->randomNumber(),
+            $restaurant_name,
+            $foundingYear,
             $faker->text(40),
             $faker->url(),
             $faker->phoneNumber(),
@@ -116,13 +95,13 @@ class RandomGenerator {
             $faker->boolean(),
             $faker->country(),
             $faker->name(),
+            $totalEmployees,
             $faker->randomNumber(),
-            $faker->randomNumber(),
-            self::restaurantLocations(1, 5),//restaurantLoaction
-            $faker->randomNumber(),
-            $faker->randomNumber(),
+            $restaurantLocations,
+            explode(' ', $restaurant_name)[count(explode(' ', $restaurant_name)) - 1],
+            count($restaurantLocations),
             $faker->boolean(),
-            $faker->randomNumber(),
+            $foundingYear - $faker->numberBetween(0, 50),
             $faker->company()  
         );
     }
