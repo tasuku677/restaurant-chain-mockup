@@ -55,9 +55,15 @@
         }
     
         public function toHTML(): string {
+            $uniqueId = 'collapse-' . uniqid();
             return sprintf("
-                <div class='company-card'>
-                    <h2>%s</h2>
+            <div class=\"accordion-item\">
+                <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#%s\" aria-expanded=\"false\" aria-controls=\"%s\">
+                <h2 class=\"accordion-header\">%s</h2>
+                </button>
+                <div id=\"%s\" class=\"accordion-collapse collapse\" data-bs-parent=\"#accordionFlushExample\">
+                    <div class=\"accordion-body\">
+                        <div class='restaurant-chain'>
                     <p><strong>Founding Year:</strong> %d</p>
                     <p><strong>Description:</strong> %s</p>
                     <p><strong>Website:</strong> <a href='%s'>%s</a></p>
@@ -67,9 +73,10 @@
                     <p><strong>Publicly Traded:</strong> %s</p>
                     <p><strong>Country:</strong> %s</p>
                     <p><strong>Founder:</strong> %s</p>
-                    <p><strong>Total Employees:</strong> %d</p>
-                </div>",
+                    <p><strong>Total Employees:</strong> %d</p>",
+                $uniqueId, $uniqueId,
                 $this->name,
+                $uniqueId,
                 $this->foundingYear,
                 $this->description,
                 $this->website, $this->website,

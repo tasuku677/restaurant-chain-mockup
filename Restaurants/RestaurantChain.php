@@ -5,7 +5,7 @@ use Companies\Company;
 
 class RestaurantChain extends Company {
     private int $chainId;
-    private array $restaurantLocation;
+    private array $restaurantLocations;
     private string $cuisineType;
 
     private int $numberOfLocations;
@@ -15,14 +15,14 @@ class RestaurantChain extends Company {
 
     public function __construct(string $name, int $foundingYear, string $description, string $website,
         string $phone, string $industry, string $ceo, bool $isPublicityTraded,
-        string $country, string $founder, int $totalEmployees, int $chainId, array $restaurantLocation, string $cuisineType, int $numberOfLocations, bool $hasDriveThru, int $yearFounded, string $parentCompany) {
+        string $country, string $founder, int $totalEmployees, int $chainId, array $restaurantLocations, string $cuisineType, int $numberOfLocations, bool $hasDriveThru, int $yearFounded, string $parentCompany) {
         
         parent::__construct($name, $foundingYear, $description, $website,
         $phone, $industry, $ceo, $isPublicityTraded,
         $country, $founder, $totalEmployees);
 
         $this->chainId = $chainId;
-        $this->restaurantLocation = $restaurantLocation;
+        $this->restaurantLocations = $restaurantLocations;
         $this->cuisineType = $cuisineType;
         $this->numberOfLocations = $numberOfLocations;
         $this->hasDriveThru = $hasDriveThru;
@@ -33,7 +33,7 @@ class RestaurantChain extends Company {
     public function toString(): string {
         $locationsString = array_map(function($location) {
             return $location->toString();
-        }, $this->restaurantLocation);
+        }, $this->restaurantLocations);
         $locationsString = implode("\n", $locationsString);
 
         return sprintf(
@@ -51,22 +51,23 @@ class RestaurantChain extends Company {
 
     public function toHTML(): string {
         $locationsHTML = array_map(function($location) {
-            return $location->toString();
-        }, $this->restaurantLocation);
-        $locationsHTML = implode("<br>", $locationsHTML);
-
+            return $location->toHTML();
+        }, $this->restaurantLocations);
+        $locationsHTML = "<div class=\"accordion\" id=\"accordionExample\">" .implode("<br>", $locationsHTML) . "</div>";
         return sprintf("
-            %s
-            <div class='restaurant-chain'>
-                <p><strong>Chain ID:</strong> %d</p>
-                <p><strong>Locations:</strong><br>%s</p>
-                <p><strong>Cuisine Type:</strong> %s</p>
-                <p><strong>Number of Locations:</strong> %d</p>
-                <p><strong>Has Drive-Thru:</strong> %s</p>
-                <p><strong>Year Founded:</strong> %d</p>
-                <p><strong>Parent Company:</strong> %s</p>
+                            %s
+                            <p><strong>Chain ID:</strong> %d</p>
+                            <p><strong>Locations:</strong><br>%s</p>
+                            <p><strong>Cuisine Type:</strong> %s</p>
+                            <p><strong>Number of Locations:</strong> %d</p>
+                            <p><strong>Has Drive-Thru:</strong> %s</p>
+                            <p><strong>Year Founded:</strong> %d</p>
+                            <p><strong>Parent Company:</strong> %s</p>
+                        </div>
+                    </div>
+                </div>
             </div>",
-            parent::toHTML(),
+             parent::toHTML(),
             $this->chainId,
             $locationsHTML,
             $this->cuisineType,
@@ -99,11 +100,11 @@ class RestaurantChain extends Company {
     public function toArray(): array {
         $locationsArray = array_map(function($location) {
             return $location->toArray();
-        }, $this->restaurantLocation);
+        }, $this->restaurantLocations);
 
         return array_merge(parent::toArray(), [
             'chainId' => $this->chainId,
-            'restaurantLocation' => $locationsArray,
+            'restaurantLocations' => $locationsArray,
             'cuisineType' => $this->cuisineType,
             'numberOfLocations' => $this->numberOfLocations,
             'hasDriveThru' => $this->hasDriveThru ? true : false,

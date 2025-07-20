@@ -16,7 +16,7 @@ class RestaurantLocation implements FileConvertible{
     
     public function __construct(
         string $name, string $address, string $city,
-        string $state, string $zipCode, array $employees, bool $isOpen)
+        string $state, string $zipCode, array $employees, bool $isOpen, bool $hasDriveThru = false)
         {
             $this->name =  $name;
             $this->address = $address;
@@ -25,6 +25,7 @@ class RestaurantLocation implements FileConvertible{
             $this->zipCode = $zipCode;
             $this->employees = $employees;
             $this->isOpen = $isOpen;
+            $this->hasDriveThru = $hasDriveThru;
         }
     
     public function getEmployees(): array {
@@ -42,36 +43,51 @@ class RestaurantLocation implements FileConvertible{
         State: %s\n 
         Zip Code: %s\n 
         Employees: %s\n 
-        is Open: %s\n",
+        is Open: %s\n
+        Drive Thru: %s",
         $this->name, 
         $this->address, 
         $this->city, 
         $this->state, 
         $this->zipCode, 
         $employeesName, 
-        $this->isOpen ? 'Yes' : 'No');
+        $this->isOpen ? 'Yes' : 'No',
+        $this->hasDriveThru ? 'Yes' : 'No'
+        );
     }
 
     public function toHTML() :string{
         $employeesName = array_map(function(Employee $employee){
             return $employee->getFullName();
         }, $this->employees);
+        $employeesName = implode(', ', $employeesName);
+        $uniqueId = 'collapse-' . uniqid();
         return sprintf("
-            <div class='restaurant-location'>
-                <div class='location'>SAMPLE</div>
-                <h2>%s</h2>
-                <p>%s %s, %s, %s</p>
-                <p>%s</p>
-                <p>Open? :%s</p>
-                <p>Drive? :%s</p>
+            <div class=\"accordion-item\" style=\"border: 1px solid #dee2e6; border-radius: 5px;\">
+                <h2 class=\"accordion-header\">
+                    <button class=\"accordion-button\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#%s\" aria-expanded=\"false\" aria-controls=\"%s\">
+                        Restaurant name: <b>%s</b>
+                    </button>
+                </h2>
+                <div id=\"%s\" class=\"accordion-collapse collapse\" data-bs-parent=\"#accordionExample\">
+                    <div class=\"accordion-body\">
+                        <p>Address: %s %s, %s, %s</p>
+                        <p>Employee: %s</p>
+                        <p>Open?: %s</p>
+                        <p>Drive?: %s</p>
+                    </div>
+                </div>
             </div>",
+        $uniqueId, $uniqueId,
             $this->name,
+            $uniqueId,
             $this->address,
             $this->city,
             $this->state,
             $this->zipCode,
             $employeesName,
-            $this->isOpen ? 'Yes' : 'No'
+            $this->isOpen ? 'Yes' : 'No',
+            $this->hasDriveThru ? 'Yes' : 'No'
         );
     }
 

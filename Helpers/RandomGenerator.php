@@ -81,7 +81,7 @@ class RandomGenerator {
         $restaurantLocations = self::restaurantLocations(1, 5);
         $totalEmployees = 0;
         foreach ($restaurantLocations as $restaurant) {
-            $totalEmployees += count($restaurant->getEmployees());
+            $totalEmployees += count(value: $restaurant->getEmployees());
         }
 
         return new RestaurantChain(
