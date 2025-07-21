@@ -3,6 +3,7 @@
 namespace Helpers;
 
 use Faker\Factory;
+use Models\User;
 use CustomProviders\RestaurantNameProvider;
 use CustomProviders\AwardProvider;
 
@@ -12,7 +13,34 @@ use Restaurants\RestaurantChain;
 use Restaurants\RestaurantLocation;
 
 class RandomGenerator {
+    public static function user(): User {
+        $faker = Factory::create();
 
+        return new User(
+            $faker->randomNumber(),
+            $faker->firstName(),
+            $faker->lastName(),
+            $faker->email,
+            $faker->password,
+            $faker->phoneNumber,
+            $faker->address,
+            $faker->dateTimeThisCentury,
+            $faker->dateTimeBetween('-10 years', '+20 years'),
+            $faker->randomElement(['admin', 'user', 'editor'])
+        );
+    }
+
+    public static function users(int $min, int $max): array {
+        $faker = Factory::create();
+        $users = [];
+        $numOfUsers = $faker->numberBetween($min, $max);
+
+        for ($i = 0; $i < $numOfUsers; $i++) {
+            $users[] = self::user();
+        }
+
+        return $users;
+    }
     public static function employee(): Employee{
         $faker = Factory::create();
         $faker->addProvider(new AwardProvider($faker));
